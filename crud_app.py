@@ -19,6 +19,7 @@ unix_socket = creds["unix_socket"]
 # I found out that I have to have a variable for the unix_socket if I'm using loopback local for the host address. 
 #   ---> this is because mysqlconnect library defaults to using tcp instead of ICP.
 cnx = connection.MySQLConnection(host=host, user=user, password=password, database=database, unix_socket=unix_socket)
+curse = cnx.cursor()
 
 print("Welcome and wake up Neo.")
 print(f"You know have access to the {database}.\n You know who the birds work for.")
@@ -34,6 +35,45 @@ print(f"\n 4=DELETE")
 
 # Gather the input
 crud_op = input(f"Please select the CRUD Operation of your choice. ")
+
+# CRUD Fn()'s
+def c():
+    print("To create a table you must give us a name.")
+    cTable = input(f"Write Name Here: ")
+    new_table = f"""
+        CREATE TABLE IF NOT EXISTS {cTable} (
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            name VARCHAR(100) NOT NULL,
+            PRIMARY KEY (id)
+        )
+    """
+    curse.execute(new_table)
+    cnx.commit()
+    print(f"Table created..")
+
+
+def r(): 
+    print("Read")
+    rTable = input(f"What Table do you want to read? Shouldn't you be waking up Neo?")
+def u():
+    print("Update")
+
+def d(): 
+    print("Delete")
+
+
+if crud_op == "1":
+    c()
+
+elif crud_op == "2":
+    r()
+
+elif crud_op == "3":
+    u()
+
+elif crud_op == "4":
+    d()
 
 # shutdown chnl. ----X
 cnx.close()
