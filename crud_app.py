@@ -55,14 +55,38 @@ def c():
 
 def r(): 
     print("Read")
-    rTable = input(f"What Table do you want to read? Shouldn't you be waking up Neo?")
+    rTable = input(f"What Table do you want to read? Shouldn't you be waking up Neo?").strip()
+    read_table = f"SELECT * FROM {rTable}"
+    curse.execute(read_table)
+    rows = curse.fetchall()
+    print(f"This is a row {rows}")
+
 def u():
     print("Update")
+    tbl = input("Table name: ").strip()
+    set_col = input("Column/Attribute to update: ").strip()
+    where_col = input("WHERE column (This is yurrr ID Value): ").strip()
+    new_val = input("New value: ")
+    where_val = input("Value to match in WHERE: ")
+
+    # Feeeeeeed the SQL statement with the params <3 
+    sql = f"UPDATE `{tbl}` SET `{set_col}` = %s WHERE `{where_col}` = %s"
+    # Has to pass in statement to execute and params >:-)
+    curse.execute(sql, (new_val, where_val))
+    cnx.commit()
+
+    print(f"Updated {curse.rowcount} row(s).")
+
 
 def d(): 
     print("Delete")
+    dTable = input(f"Please suggest which T a b l e that you'd like to select.")
+    delete_table = f"DROP TABLE {dTable}"
+    curse.execute(delete_table)
+    cnx.commit()
+    print("Good job Neo – you dropped the Matrix.")
 
-
+# Condition flooooow determines which CRUD fn to call() <:]
 if crud_op == "1":
     c()
 
