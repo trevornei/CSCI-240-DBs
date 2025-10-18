@@ -18,13 +18,24 @@ users = []
 
 def generate_users():
   for i in range(10):
-      first_name = faker.first_name()
-      last_name = faker.last_name()
-      username = faker.user_name()
-      print(f"""
-          First_Name = {first_name}
-          Last_Name = {last_name}
-          username = {username}
-      """)
+      fn = faker.first_name()
+      ln = faker.last_name()
+      un = faker.user_name()
+      user_dict = {
+        "first_name": fn, 
+        "last_name":  ln,
+        "username":  un
+      }
 
+      users.append(user_dict)
+
+'''
+      print(f"""
+          First_Name = {fn}
+          Last_Name = {ln}
+          username = {un}
+      """)
+'''
 generate_users()
+print(users)
+
