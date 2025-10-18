@@ -2,7 +2,7 @@ import mysql.connector
 from dotenv import dotenv_values
 from mysql.connector import (connection)
 
-creds = dotenv_values(".env")
+creds = dotenv_values("../.env")
 print(creds)
 
 # Create vars: host, user, password, database
