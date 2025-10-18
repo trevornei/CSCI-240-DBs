@@ -17,7 +17,7 @@ For Users & Feeds
 users = []
 
 def generate_users():
-  for i in range(10):
+  for i in range(500):
       fn = faker.first_name()
       ln = faker.last_name()
       un = faker.user_name()
@@ -39,3 +39,9 @@ def generate_users():
 generate_users()
 print(users)
 
+with open("./py_projects/users_listionary.py", "w") as file:
+    try:
+        file.write(f"users = {users}")
+        print("Users listionary has been printed and you can find it in the ./py_projects directory.")
+    except: 
+        print("Warning: your file has NOT been generated. No users were created.")
