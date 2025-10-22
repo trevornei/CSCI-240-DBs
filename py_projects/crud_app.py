@@ -33,7 +33,7 @@ print(f"\n 1=CREATE")
 print(f"\n 2=READ")
 print(f"\n 3=UPDATE")
 print(f"\n 4=DELETE")
-
+print(f"\n \n Type "Paper" if you wish to enter the Print Que")
 # Gather the input
 crud_op = input(f"Please select the CRUD Operation of your choice. ")
 
@@ -87,6 +87,22 @@ def d():
     cnx.commit()
     print("Good job Neo – you dropped the Matrix.")
 
+def var_rate_mortgage():
+    print(f"Neo, don't read The Big Short.")
+    print(f"\n Anyways...")
+    print(f"""
+              Your Options are:
+                Press 1 for print users;
+                Press 1 for print feeds;
+                Press 1 for printing users in a feed;
+                Press 1 for adding a user;
+                Press 1 for removing a user;
+
+          """)
+    
+
+
+
 # Condition flooooow determines which CRUD fn to call() <:]
 if crud_op == "1":
     c()
@@ -99,6 +115,9 @@ elif crud_op == "3":
 
 elif crud_op == "4":
     d()
+
+elif curd_op == "Paper" or "paper" or "P a p e r" or "Credit default swaps on subprime housing bonds"
+    var_rate_mortgage()
 
 # shutdown chnl. ----X
 cnx.close()
