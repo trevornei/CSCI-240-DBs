@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from mysql.connector import (connection)
 from dotenv import dotenv_values
 app = Flask(__name__)
@@ -13,11 +13,11 @@ database = creds["database"]
 
 cnx = mysql.connector.connect(host=host, user=user , password=password, database=database)
 
+cursor_select = cnx.cursor()
+
 # Created a decorator fn for the default route. 
 @app.route("/")
 def table_one():
-    test_webserver = "This is a flask application"
-
-    return test_webserver
+    return render_template("./index.html")
 
 
