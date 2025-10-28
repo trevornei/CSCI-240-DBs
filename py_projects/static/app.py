@@ -12,12 +12,14 @@ password = creds["password"]
 database = creds["database"]
 
 cnx = mysql.connector.connect(host=host, user=user , password=password, database=database)
-
-cursor_select = cnx.cursor()
-
 # Created a decorator fn for the default route. 
 @app.route("/")
 def table_one():
-    return render_template("./index.html")
+    cursor = cnx.cursor()
+    query = f"SELECT * FROM users;"
+    # Now I execute the query
+    cursor.execute(query)
+    users = cursor.fetchall()
+    return render_template("./index.html", users=users)
 
 
