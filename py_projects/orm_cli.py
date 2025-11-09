@@ -1,6 +1,6 @@
-import mysql.connector
 from dotenv import dotenv_values
-from mysql.connector import (connection)
+import sqlalchemy as sa
+from sqlalchemy import create_engine
 
 creds = dotenv_values("./.env")
 
@@ -9,8 +9,23 @@ user = creds["user"]
 password = creds["password"]
 database = creds["database"]
 
-cnx = connection.MySQLConnection(host=host, user=user, password=password, database=database)
-curse = cnx.cursor()
+engine = sa.create_engine(f"mysql+mysqlconnector://{user}:{password}@{host}/{database}")
+connection = engine.connect()
+
+metadata = sa.MetaData()
+
+staff_table = sa.Table(
+    "staff",
+    metadata,
+    sa.Column("id", sa.Integer, primary_key=True),
+    sa.Column("first_name", sa.String(45)),
+    sa.Column("last_name", sa.String(45)),
+    sa.Column("email", sa.String(50)),
+    sa.Column("username", sa.String(16)),
+    sa.Column("password", sa.String(40))
+)
+
+
 
 print("Assignment: ORM CLI to the Sakila Database.")
 print(f"You know have access to the {database}.\n")
@@ -40,4 +55,3 @@ def u():
 def d(): 
     print("Delete")
 
-cnx.close()
