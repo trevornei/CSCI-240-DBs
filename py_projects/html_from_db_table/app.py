@@ -12,32 +12,17 @@ password = creds["password"]
 database = creds["database"]
 
 cnx = mysql.connector.connect(host=host, user=user , password=password, database=database)
-# Created a decorator fn for the default route. 
+
 @app.route("/", methods=["POST", "GET"])
-def get_pigeon_food():
-    print(f"{request.method =}")
-    if request.method == "POST":
-        add_cursor = cnx.cursor()
-
-        first_name = request.form.get('fname')
-        last_name = request.form.get('lname')
-        email = request.form.get('email')
-        print(f"{first_name}, {last_name}, {email}")
-        # I created two variables that separate the insert statement and the values statement.
-        mysql_insert = f"INSERT INTO users(first_name, last_name, email) VALUES (%s, %s, %s)"
-        form_values = (first_name, last_name, email)
-        add_cursor.execute(mysql_insert, form_values)
-        cnx.commit()
-    return render_template("index.html")
-
-@app.route("/funky-table", methods=["POST", "GET"])
-def generate_table():
-    cursor = cnx.cursor()
-    query = f"SELECT * FROM users;"
-    # Now I execute the query
-    cursor.execute(query)
-    users = cursor.fetchall()
-    return render_template("./funky-table.html", users=users)
-
-
+def users_table():
+    # SQL Statement, create cursor, fetch the data from the request, close the connection to the db.
+    request_users = f"SELECT * FROM users;"
+    request_cursor = cnx.cursor()
+    request_cursor.execute(request_users)
+    # In index.html use jinja2 to create a for loop for the data that is fetched from users variable...
+    users = request_cursor.fetchall()
+    request_cursor.close()
+    
+    # Render the html...
+    return render_template("index.html", users=users)
 

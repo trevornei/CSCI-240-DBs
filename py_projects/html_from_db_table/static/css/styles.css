@@ -9,6 +9,7 @@ body {
   color: rgb(75, 245, 66);
   font-weight: 800;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -21,13 +22,14 @@ body {
 
 table {
   background: rgb(23, 23, 23);
-  font: Robot Mono;
+  font: Roboto Mono;
   border-collapse: collapse;
   border: .5px solid green; 
   border-radius: 30px;
   filter: drop-shadow(30px 10px 4px green);
   align-items: center;
   justify-content: center;
+  margin: 20px;
 }
 
 caption {
@@ -43,8 +45,10 @@ thead {
 
 th {
   padding: 12px;
+  background: rgb(23, 23, 23);
 }
 
 td {
   padding: 8px;
+  background: rgb(23, 23, 23);
 }
