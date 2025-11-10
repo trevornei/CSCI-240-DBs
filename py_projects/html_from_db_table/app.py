@@ -23,6 +23,23 @@ def users_table():
     users = request_cursor.fetchall()
     request_cursor.close()
     
+    if request.method == "POST":
+        # Get form data from the user.
+        first_name = request.form.get('fname')
+        last_name = request.form.get('lname')
+        user_name = request.form.get('uname')  # Note: no username field in form currently
+        email = request.form.get('email')
+        
+        form_cursor = cnx.cursor()
+        update_users_table = """
+            INSERT INTO users(first_name, last_name, user_name, email)
+            VALUES(%s, %s, %s, %s)
+        """
+        # Param1: Insert statement
+        # Param2: values that are passed into the database
+        form_cursor.execute(update_users_table, (first_name, last_name, user_name, email))
+        cnx.commit()
+        form_cursor.close()
     # Render the html...
     return render_template("index.html", users=users)
 
