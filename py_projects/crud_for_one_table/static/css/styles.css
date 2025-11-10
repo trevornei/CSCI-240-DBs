@@ -65,3 +65,15 @@ td {
     justify-content: center;
     flex-direction: row;
 }
+
+#user-submit {
+    margin: 20px 0px; 
+    border-radius: 10px;
+    padding: 12px;
+    background: rgba(110, 201, 156, 0.3);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
