@@ -25,19 +25,24 @@ def users_table():
     
     if request.method == "POST":
         # Create a variable to store the value of the user selected radio button.
-        selected_radio_button = request.form.get('create')
+        selected_radio_button = request.form.get('crud')
         # Get form data from the user.
         first_name = request.form.get('fname')
         last_name = request.form.get('lname')
-        user_name = request.form.get('uname')  # Note: no username field in form currently
+        user_name = request.form.get('uname') 
         email = request.form.get('email')
         
         form_cursor = cnx.cursor()
 
         if selected_radio_button == "create":
-            pass
+            create_user = """
+            INSERT INTO users(first_name, last_name, user_name, email)
+            VALUES(%s, %s, %s, %s)
+            """
+            form_cursor.execute(create_user, (first_name, last_name, user_name, email))
         
         elif selected_radio_button == "read":
+            # This one is not relevant because to read the table you need to refresh...
             pass
 
         elif selected_radio_button == "update":
@@ -46,14 +51,6 @@ def users_table():
         elif selected_radio_button == "delete":
             pass
 
-        
-        update_users_table = """
-            INSERT INTO users(first_name, last_name, user_name, email)
-            VALUES(%s, %s, %s, %s)
-        """
-        # Param1: Insert statement
-        # Param2: values that are passed into the database
-        form_cursor.execute(update_users_table, (first_name, last_name, user_name, email))
         cnx.commit()
         form_cursor.close()
     # Render the html...
