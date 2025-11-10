@@ -27,6 +27,7 @@ def users_table():
         # Create a variable to store the value of the user selected radio button.
         selected_radio_button = request.form.get('crud')
         # Get form data from the user.
+        user_id = request.form.get('id')
         first_name = request.form.get('fname')
         last_name = request.form.get('lname')
         user_name = request.form.get('uname') 
@@ -47,10 +48,21 @@ def users_table():
             return redirect(url_for("users_table"))
 
         elif selected_radio_button == "update":
-            pass
+            update_user = """
+            UPDATE users
+            SET first_name = %s, last_name = %s, user_name = %s, email = %s
+            WHERE user_id = %s
+            """
+            form_cursor.execute(update_user, (first_name, last_name, user_name, email, user_id))
 
         elif selected_radio_button == "delete":
-            pass
+            delete_user = """
+                DELETE FROM users
+                WHERE user_id = %s
+            """
+            # This was really janky but mysql connector was throwing an error because it was expecting a tuple...
+            # So I had to add a trailing comma and then the error went away lol
+            form_cursor.execute(delete_user, (user_id,))
 
         cnx.commit()
         form_cursor.close()
