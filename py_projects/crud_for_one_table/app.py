@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, logging
+from flask import Flask, render_template, request, redirect, url_for, logging
 from mysql.connector import (connection)
 from dotenv import dotenv_values
 app = Flask(__name__)
@@ -17,7 +17,7 @@ cnx = mysql.connector.connect(host=host, user=user , password=password, database
 def users_table():
     # SQL Statement, create cursor, fetch the data from the request, close the connection to the db.
     request_users = f"SELECT * FROM users;"
-    request_cursor = cnx.cursor()
+    request_cursor = cnx.cursor(buffered=True)
     request_cursor.execute(request_users)
     # In index.html use jinja2 to create a for loop for the data that is fetched from users variable...
     users = request_cursor.fetchall()
@@ -32,7 +32,7 @@ def users_table():
         user_name = request.form.get('uname') 
         email = request.form.get('email')
         
-        form_cursor = cnx.cursor()
+        form_cursor = cnx.cursor(buffered=True)
 
         if selected_radio_button == "create":
             create_user = """
@@ -42,8 +42,9 @@ def users_table():
             form_cursor.execute(create_user, (first_name, last_name, user_name, email))
         
         elif selected_radio_button == "read":
-            # This one is not relevant because to read the table you need to refresh...
-            pass
+            # This redirect allow the user to "read" by refreshing the page for the latest results which runs the select
+            # all query against the db.
+            return redirect(url_for("users_table"))
 
         elif selected_radio_button == "update":
             pass
