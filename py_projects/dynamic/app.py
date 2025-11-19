@@ -16,7 +16,7 @@ cnx = mysql.connector.connect(host=host, user=user , password=password, database
 @app.route("/", methods=["POST", "GET"])
 def get_pigeon_food():
     print(f"{request.method =}")
-    if request.method == "POST":
+    if request.method == "POST" or request.method == "GET":
         add_cursor = cnx.cursor()
 
         first_name = request.form.get('fname')

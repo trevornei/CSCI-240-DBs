@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>For Scritch Pigeon.com</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+  </head>
+  <body>
+    <div>
+      <!-- SECTION: Table -->
+      <table dir="ltr" width="500" border="1" 
+        summary="purpose/structure for speech output">
+        <caption>
+            Users Table
+        </caption>
+        <colgroup width="50%" />
+        <colgroup id="colgroup" class="colgroup" align="center" valign="middle" title="title" span="2"/>
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+            <td>{{ user[3] }}</td>
+            <td>{{ user[4] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION: Form-->
+    <div class="formWrapper">
+    <!-- Radio Buttons select for CREATE, READ, UPDATE, Or DELETE (CRUD)-->
+      <form action="" method="POST">
+        <h3>
+            Please select the action that you would like to take against the Users Table.
+        </h3>
+        <p>
+            Assignment="CRUD FOR ONE TABLE"
+        </p>
+        <div id="radio">
+            <input type="radio" id="" name="crud" value="create" checked>
+            <label for="">Create</label><br>
+
+            <input type="radio" id="" name="crud" value="read">
+            <label for="">Read</label><br>
+
+            <input type="radio" id="" name="crud" value="update">
+            <label for="">Update</label><br>
+
+            <input type="radio" id="" name="crud" value="delete">
+            <label for="">Delete</label><br>
+        </div>
+        <!-- User Input // Submission Form -->
+        <div id="user-submit">
+            <label for="id">User Identification(ID):</label><br>
+            <input type="text" id="id" name="id"><br>
+
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="fname"><br>
+
+            <label for="lname">Last name:</label><br>
+            <input type="text" id="lname" name="lname"><br>
+
+            <label for="uname">Username:</label><br>
+            <input type="text" id="uname" name="uname"><br>
+
+            <label for="email">Email:</label><br>
+            <input type="text" id="email" name="email"><br>
+
+            <button type="submit" value="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
