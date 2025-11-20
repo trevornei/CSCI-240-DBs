@@ -15,9 +15,24 @@ body {
 }
 
 .formWrapper {
+  overflow: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-width: 5px;
+  border-style: solid;
+  border-color: red;
+  margin: 0px 200px;
+  filter: drop-shadow(30px 10px 30px green);
+}
+
+.miniForm {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  margin: 100px 50px;
+  filter: drop-shadow(30px 10px 30px green);
 }
 
 table {

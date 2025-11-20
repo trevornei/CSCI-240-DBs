@@ -11,17 +11,15 @@
       <table dir="ltr" width="500" border="1" 
         summary="purpose/structure for speech output">
         <caption>
-            Users Table
+            Table ---> Feeds to Posts 
         </caption>
         <colgroup width="50%" />
         <colgroup id="colgroup" class="colgroup" align="center" valign="middle" title="title" span="2"/>
         <thead>
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
+            <th scope="col">feed_id</th>
+            <th scope="col">post_id</th>
+            <th scope="col">user_id</th>
           </tr>
         </thead>
         <tbody>
@@ -30,8 +28,6 @@
             <td>{{ user[0] }}</td>
             <td>{{ user[1] }}</td>
             <td>{{ user[2] }}</td>
-            <td>{{ user[3] }}</td>
-            <td>{{ user[4] }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -50,33 +46,18 @@
         </p>
         <div id="radio">
             <input type="radio" id="" name="crud" value="create" checked>
-            <label for="">Create</label><br>
+            <label for="">Select</label><br>
 
             <input type="radio" id="" name="crud" value="read">
-            <label for="">Read</label><br>
-
-            <input type="radio" id="" name="crud" value="update">
-            <label for="">Update</label><br>
-
-            <input type="radio" id="" name="crud" value="delete">
-            <label for="">Delete</label><br>
-        </div>
+            <label for="">Insert</label><br>
+        </div
         <!-- User Input // Submission Form -->
         <div id="user-submit">
-            <label for="id">User Identification(ID):</label><br>
-            <input type="text" id="id" name="id"><br>
+            <label for="id">feed_id</label><br>
+            <input type="text" id="feed_id" name="feed_id"><br>
 
-            <label for="fname">First name:</label><br>
-            <input type="text" id="fname" name="fname"><br>
-
-            <label for="lname">Last name:</label><br>
-            <input type="text" id="lname" name="lname"><br>
-
-            <label for="uname">Username:</label><br>
-            <input type="text" id="uname" name="uname"><br>
-
-            <label for="email">Email:</label><br>
-            <input type="text" id="email" name="email"><br>
+            <label for="fname">user_id</label><br>
+            <input type="text" id="user_id" name="user_id"><br>
 
             <button type="submit" value="submit">Submit</button>
         </div>

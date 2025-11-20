@@ -69,3 +69,17 @@ def users_table():
     # Render the html...
     return render_template("index.html", users=users)
 
+
+
+@app.route('/manytomany', methods=['GET']) 
+def manytomany():
+    many_to_many_cursor = cnx.cursor(buffered=True)
+    # SELECT Statement
+    # Populate Table for ---> Feeds-Posts
+
+    # INSERT Statement
+    return render_template('manytomany.html')
+
+
+
+
