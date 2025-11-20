@@ -76,9 +76,28 @@ def manytomany():
     many_to_many_cursor = cnx.cursor(buffered=True)
     # SELECT Statement
     # Populate Table for ---> Feeds-Posts
+    select_feeds_posts = "SELECT * FROM feeds_posts" 
+    many_to_many_cursor.execute(select_feeds_posts )
+
+    feeds_and_posts = many_to_many_cursor.fetchall() 
+
+    cnx.commit()
 
     # INSERT Statement
-    return render_template('manytomany.html')
+    feed_id = request.form.get("feed_id") 
+    post_id = request.form.get("post_id") 
+
+    selected_radio_button = request.form.get('many-radio')
+    
+    if selected_radio_button == "insert":
+            update_fp_data = """
+            UPDATE feeds_posts 
+            SET feed_id = %s, post_id = %s, user_id = %s
+            WHERE user_id = %s
+            """
+            form_cursor.execute(update_fp_data, (feed_id, post_id))
+
+    return render_template('manytomany.html', fp_data=feeds_and_posts)
 
 
 

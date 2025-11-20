@@ -23,11 +23,11 @@
           </tr>
         </thead>
         <tbody>
-          {% for user in users %}
+          {% for id in fp_data %}
           <tr>
-            <td>{{ user[0] }}</td>
-            <td>{{ user[1] }}</td>
-            <td>{{ user[2] }}</td>
+            <td>{{ id[0] }}</td>
+            <td>{{ id[1] }}</td>
+            <td>{{ id[2] }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -38,17 +38,25 @@
     <div class="formWrapper">
     <!-- Radio Buttons select for CREATE, READ, UPDATE, Or DELETE (CRUD)-->
       <form class="miniForm" action="" method="POST">
-        <h3>
-            Please select the action that you would like to take against the Users Table.
-        </h3>
+        <h1>
+        <h1>
+            Run your insert statement 
+        </h1>
+        <h1>
+            with this form!
+        </h1>
         <p>
-            Assignment="CRUD FOR ONE TABLE"
+            Assignment: Many to Many Relationship
+            <br>
+               <dd>Select the many-many table<dd>
+            <br>
+                <dd> Insert new values into the many to many table. </dd>
         </p>
         <div id="radio">
-            <input type="radio" id="" name="crud" value="create" checked>
+            <input type="radio" id="" name="many-radio" value="select" checked>
             <label for="">Select</label><br>
 
-            <input type="radio" id="" name="crud" value="read">
+            <input type="radio" id="" name="many-radio" value="insert">
             <label for="">Insert</label><br>
         </div
         <!-- User Input // Submission Form -->
