@@ -1,15 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, logging
+from flask import Flask, render_template, request, redirect, url_for
 from mysql.connector import (connection)
 from dotenv import dotenv_values
 app = Flask(__name__)
 
 import mysql.connector
+from mysql.connector import Error
 creds = dotenv_values("./.env")
 
 host = creds["host"]
 user = creds["user"]
 password = creds["password"]
 database = creds["database"]
+app.secret_key = creds.get("secret_key", "fallback_secret_key_change_me")
 
 cnx = mysql.connector.connect(host=host, user=user , password=password, database=database)
 
@@ -71,34 +73,65 @@ def users_table():
 
 
 
-@app.route('/manytomany', methods=['GET']) 
+@app.route('/manytomany', methods=['GET', 'POST']) 
 def manytomany():
     many_to_many_cursor = cnx.cursor(buffered=True)
-    # SELECT Statement
-    # Populate Table for ---> Feeds-Posts
-    select_feeds_posts = "SELECT * FROM feeds_posts" 
-    many_to_many_cursor.execute(select_feeds_posts )
-
-    feeds_and_posts = many_to_many_cursor.fetchall() 
-
-    cnx.commit()
-
-    # INSERT Statement
-    feed_id = request.form.get("feed_id") 
-    post_id = request.form.get("post_id") 
-
-    selected_radio_button = request.form.get('many-radio')
     
-    if selected_radio_button == "insert":
+    # SELECT all from feeds_posts
+    select_feeds_posts = "SELECT * FROM feeds_posts" 
+    feeds_and_posts = []
+    query_executed = False
+    
+    # Handle POST requests for the form submissions...
+    if request.method == "POST":
+        selected_radio_button = request.form.get('many-radio')
+        print(f"DEBUG: Form data received: {dict(request.form)}")
+        print(f"DEBUG: Selected radio: {selected_radio_button}")
+        
+        if selected_radio_button == "update":
+            # UPDATE an existing row in feeds_posts table...
+            # Rows are selected by composite primary key of feed_id + post_id
+            # ----> That's why updating require both fk's to select a row...
+            current_feed_id = request.form.get("current_feed_id")
+            current_post_id = request.form.get("current_post_id")
+            # Values from the form input's for the ----> new values...
+            new_feed_id = request.form.get("new_feed_id") or None
+            new_post_id = request.form.get("new_post_id") or None
             update_fp_data = """
             UPDATE feeds_posts 
-            SET feed_id = %s, post_id = %s, user_id = %s
-            WHERE user_id = %s
+            SET feed_id = COALESCE(%s, feed_id),
+                post_id = COALESCE(%s, post_id)
+            WHERE feed_id = %s AND post_id = %s
             """
-            form_cursor.execute(update_fp_data, (feed_id, post_id))
-
+            many_to_many_cursor.execute(
+                update_fp_data,
+                (new_feed_id, new_post_id, current_feed_id, current_post_id)
+            )
+            cnx.commit()
+            
+        elif selected_radio_button == "select":
+            # SELECT posts in a feed OR feeds containing a post...
+            query_type = request.form.get("query_type")
+            query_value = request.form.get("query_value")
+            
+            if query_type == "by_feed" and query_value:
+                # Show all posts in a given feed
+                select_feeds_posts = "SELECT * FROM feeds_posts WHERE feed_id = %s"
+                many_to_many_cursor.execute(select_feeds_posts, (query_value,))
+                feeds_and_posts = many_to_many_cursor.fetchall()
+                query_executed = True
+            elif query_type == "by_post" and query_value:
+                # Show all feeds containing a given post
+                select_feeds_posts = "SELECT * FROM feeds_posts WHERE post_id = %s"
+                many_to_many_cursor.execute(select_feeds_posts, (query_value,))
+                feeds_and_posts = many_to_many_cursor.fetchall()
+                query_executed = True
+    
+    # If no POST or no specific select query, show all
+    if not query_executed:
+        many_to_many_cursor.execute(select_feeds_posts)
+        feeds_and_posts = many_to_many_cursor.fetchall()
+    
+    many_to_many_cursor.close()
     return render_template('manytomany.html', fp_data=feeds_and_posts)
-
-
-
 
